@@ -13,25 +13,32 @@ class TeamController < Sinatra::Base
     id: 0,
     name: "Man City",
     points: 92,
-    position: "1st"
+    position: "1st",
+    image: "https://picsum.photos/200"
+
     },
     {
     id: 1,
     name: "Liverpool",
     points: 91,
-    position: "2nd"
+    position: "2nd",
+    image: "https://picsum.photos/200"
+
     },
     {
     id: 2,
     name: "Spurs",
     points: 71,
-    position: "3rd"
+    position: "3rd",
+    image: "https://picsum.photos/200"
+
     },
     {
     id: 3,
     name: "Chelsea",
     points: 70,
-    position: "4th"
+    position: "4th",
+    image: "https://picsum.photos/200"
     }]
 
 
@@ -48,7 +55,9 @@ class TeamController < Sinatra::Base
       id: "",
       name: "",
       points: "",
-      position: ""
+      position: "",
+      image: ""
+
     }
 
     erb :'teams/new'
@@ -63,14 +72,14 @@ class TeamController < Sinatra::Base
   get "/:id/edit" do
     id = params[:id].to_i
 
-    @teams = $teams
+    @teams = $teams[id]
     erb :'teams/edit'
   end
 
   post "/" do
     new_team = {
     id: $teams.length,
-    name: params[:teamname],
+    name: params[:name],
     points: params[:points],
     position: params[:position]}
 
@@ -81,11 +90,22 @@ class TeamController < Sinatra::Base
   end
 
   put "/:id" do
-    "update page"
+    id = params[:id].to_i
+
+    $teams[id][:name] = params[:name]
+    $teams[id][:points] = params[:points]
+    $teams[id][:position] = params[:position]
+
+    redirect '/'
   end
 
   delete "/:id" do
-    "Gonzo"
+
+    id = params[:id].to_i
+
+    $teams.delete_at(id)
+
+    redirect '/'
   end
 
 end
